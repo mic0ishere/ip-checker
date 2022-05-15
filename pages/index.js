@@ -2,6 +2,11 @@ import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import useSWR from "swr";
 
+const MapWithNoSSR = dynamic(() => import("../lib/map"), {
+  ssr: false,
+  loading: () => <div>loading...</div>,
+});
+
 export default function Home() {
   const [query, setQuery] = useState("");
 
@@ -24,11 +29,6 @@ export default function Home() {
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
-
-  const MapWithNoSSR = dynamic(() => import("../lib/map"), {
-    ssr: false,
-    loading: () => <div>loading...</div>,
-  });
 
   return (
     <main className="w-screen h-screen">
