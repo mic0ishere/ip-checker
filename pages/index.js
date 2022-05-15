@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import useSWR from "swr";
 
-const MapWithNoSSR = dynamic(() => import("../lib/map"), {
+const MapWithNoSSR = dynamic(() => import("../components/map"), {
   ssr: false,
   loading: () => <div>loading...</div>,
 });
