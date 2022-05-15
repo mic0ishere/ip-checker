@@ -60,7 +60,7 @@ function Map({ data, initialPosition }) {
               ISP: {data.isp} ({data.asname})
             </>
           ) : (
-            <>Couldn&apos;t locate!</>
+            <>Couldn&apos;t locate</>
           )}
         </Tooltip>
       </Marker>

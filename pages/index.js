@@ -7,8 +7,8 @@ const MapWithNoSSR = dynamic(() => import("../components/Map"), {
   loading: () => <div>loading...</div>,
 });
 
-export default function Home() {
-  const [query, setQuery] = useState("");
+export default function Home({ ip }) {
+  const [query, setQuery] = useState(`/${ip}`);
 
   const { data, error } = useSWR(
     `/get-ip${query}`,
@@ -70,4 +70,14 @@ export default function Home() {
       />
     </main>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  console.log(req.cookies);
+
+  return {
+    props: {
+      ip: req.cookies?.ip || "127.0.0.1",
+    },
+  };
 }
