@@ -7,7 +7,7 @@ const MapWithNoSSR = dynamic(() => import("../components/Map"), {
   loading: () => <div>loading...</div>,
 });
 
-export default function Home({ ip }) {
+export default function Home() {
   const [query, setQuery] = useState("");
   const [initial, setInitial] = useState(null);
 
@@ -53,7 +53,7 @@ export default function Home({ ip }) {
           type="text"
           name="search"
           placeholder="Search for any IP address or domain"
-          defaultValue={data.query}
+          defaultValue={data.query === "undefined" ? "" : data.query}
         />
         <div className="rounded-r-xl bg-white">
           <button

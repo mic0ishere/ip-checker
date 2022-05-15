@@ -19,11 +19,13 @@ const marker = new Icon({
 function Map({ data, initialPosition }) {
   const [position, setPosition] = useState([0, 0]);
 
+  const found = data && data.lat && data.lon;
+
   useEffect(() => {
-    if (data && data.lat && data.lon) {
+    if (found) {
       setPosition([data.lat, data.lon]);
     }
-  }, [data]);
+  }, [data.lat, data.lon, found]);
 
   function ChangeView({ center }) {
     const map = useMap();
@@ -47,20 +49,20 @@ function Map({ data, initialPosition }) {
       />
       <Marker position={position} icon={marker}>
         <Tooltip permanent opacity={1} offset={[25, 0]} direction="right">
-          {initialPosition && (
+          {initialPosition && found && (
             <>
               <strong>You are here!</strong>
               <br />
             </>
           )}
-          {data.lat && data.lon ? (
+          {found ? (
             <>
               ({data.city}, {data.regionName}, {data.country})
               <br />
               ISP: {data.isp} ({data.asname})
             </>
           ) : (
-            <>Couldn&apos;t locate</>
+            <>Couldn&apos;t locate{initialPosition && <> you</>}</>
           )}
         </Tooltip>
       </Marker>
