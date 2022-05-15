@@ -8,7 +8,8 @@ const MapWithNoSSR = dynamic(() => import("../components/Map"), {
 });
 
 export default function Home({ ip }) {
-  const [query, setQuery] = useState(`/${ip}`);
+  const [query, setQuery] = useState("");
+  const [initial, setInitial] = useState(null);
 
   const { data, error } = useSWR(
     `/get-ip${query}`,
@@ -19,7 +20,14 @@ export default function Home({ ip }) {
     }
   );
 
-  let [initial, setInitial] = useState(null);
+  useEffect(() => {
+    const cookies = document.cookie.split(";").reduce((acc, cookie) => {
+      const [key, value] = cookie.split("=");
+      acc[key.trim()] = value;
+      return acc;
+    }, {});
+    setQuery(`/${cookies.ip}`);
+  }, []);
 
   useEffect(() => {
     if (data && !initial) {
@@ -70,14 +78,4 @@ export default function Home({ ip }) {
       />
     </main>
   );
-}
-
-export async function getServerSideProps({ req }) {
-  console.log(req.cookies);
-
-  return {
-    props: {
-      ip: req.cookies?.ip || "127.0.0.1",
-    },
-  };
 }

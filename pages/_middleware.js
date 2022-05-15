@@ -10,6 +10,6 @@ export function middleware(req) {
 
     return NextResponse.rewrite(`${url}/${pathname[2]}${fields}`);
   }
-  
+
   return NextResponse.next().cookie("ip", req.ip);
 }
